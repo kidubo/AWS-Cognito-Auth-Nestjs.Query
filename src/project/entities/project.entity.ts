@@ -4,7 +4,7 @@ import { Employee } from 'src/employee/entities/employee.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType()
-@OffsetConnection('employee', () => Employee, { disableRemove: true })
+@OffsetConnection('employee', () => Employee)
 @Entity()
 export class Project {
   @FilterableField()

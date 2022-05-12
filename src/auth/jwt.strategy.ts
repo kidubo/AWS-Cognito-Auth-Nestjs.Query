@@ -1,8 +1,44 @@
+// import { Injectable } from '@nestjs/common';
+// import { PassportStrategy } from '@nestjs/passport';
+// import { passportJwtSecret } from 'jwks-rsa';
+// import { ExtractJwt, Strategy } from 'passport-jwt';
+// import { AuthConfiguration } from './auth.config';
+// import { User } from './user.type';
+
+// @Injectable()
+// export class JwtStrategy extends PassportStrategy(Strategy) {
+//   constructor(private _authConfig: AuthConfiguration) {
+//     super({
+//       secretOrKeyProvider: passportJwtSecret({
+//         cache: true,
+//         rateLimit: true,
+//         jwksRequestsPerMinute: 10,
+//         jwksUri: `${_authConfig.authority}/.well-known/jwks.json`,
+//       }),
+//       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+//       audience: _authConfig.clientId,
+//       issuer: _authConfig.authority,
+//       algorithms: ['RS256'],
+//     });
+//   }
+
+//   // async validate(payload: any) {
+//   //   console.log(payload);
+//   //   return payload;
+//   // }
+
+//   async validate(payload: any) {
+//     const user: User = new User(payload.username, payload['cognito:groups']);
+//     return user;
+//   }
+// }
+
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { passportJwtSecret } from 'jwks-rsa';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthConfiguration } from './auth.config';
+import { User } from './user.type';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,13 +56,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       algorithms: ['RS256'],
     });
   }
-
   async validate(payload: any) {
-    console.log(payload);
-    return payload;
+    const user: User = new User(payload.username, payload['cognito:groups']);
+    return user;
   }
-  // async validate(payload: any) {
-  //   const user: User = new User(payload.username, payload['cognito:groups']);
-  //   return user;
-  // }
 }

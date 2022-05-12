@@ -83,13 +83,15 @@ type Employee {
   firstName: String!
   id: String!
   lastName: String!
-  project: Project!
   projectId: String!
 }
 
 type EmployeeAggregateGroupBy {
+  city: String
+  designation: String
   firstName: String
   id: String
+  lastName: String
   projectId: String
 }
 
@@ -102,8 +104,11 @@ type EmployeeConnection {
 }
 
 type EmployeeCountAggregate {
+  city: Int
+  designation: Int
   firstName: Int
   id: Int
+  lastName: Int
   projectId: Int
 }
 
@@ -117,8 +122,11 @@ input EmployeeCreateDTO {
 
 input EmployeeDeleteFilter {
   and: [EmployeeDeleteFilter!]
+  city: StringFieldComparison
+  designation: StringFieldComparison
   firstName: StringFieldComparison
   id: StringFieldComparison
+  lastName: StringFieldComparison
   or: [EmployeeDeleteFilter!]
   projectId: StringFieldComparison
 }
@@ -129,7 +137,6 @@ type EmployeeDeleteResponse {
   firstName: String
   id: String
   lastName: String
-  project: Project
   projectId: String
 }
 
@@ -143,21 +150,30 @@ type EmployeeEdge {
 
 input EmployeeFilter {
   and: [EmployeeFilter!]
+  city: StringFieldComparison
+  designation: StringFieldComparison
   firstName: StringFieldComparison
   id: StringFieldComparison
+  lastName: StringFieldComparison
   or: [EmployeeFilter!]
   projectId: StringFieldComparison
 }
 
 type EmployeeMaxAggregate {
+  city: String
+  designation: String
   firstName: String
   id: String
+  lastName: String
   projectId: String
 }
 
 type EmployeeMinAggregate {
+  city: String
+  designation: String
   firstName: String
   id: String
+  lastName: String
   projectId: String
 }
 
@@ -168,15 +184,21 @@ input EmployeeSort {
 }
 
 enum EmployeeSortFields {
+  city
+  designation
   firstName
   id
+  lastName
   projectId
 }
 
 input EmployeeUpdateFilter {
   and: [EmployeeUpdateFilter!]
+  city: StringFieldComparison
+  designation: StringFieldComparison
   firstName: StringFieldComparison
   id: StringFieldComparison
+  lastName: StringFieldComparison
   or: [EmployeeUpdateFilter!]
   projectId: StringFieldComparison
 }
@@ -211,6 +233,7 @@ type Mutation {
   deleteManyProjects(input: DeleteManyProjectsInput!): DeleteManyResponse!
   deleteOneEmployee(input: DeleteOneEmployeeInput!): EmployeeDeleteResponse!
   deleteOneProject(input: DeleteOneProjectInput!): ProjectDeleteResponse!
+  removeEmployeesFromProject(input: RemoveEmployeesFromProjectInput!): Project!
   setEmployeesOnProject(input: SetEmployeesOnProjectInput!): Project!
   updateManyEmployees(input: UpdateManyEmployeesInput!): UpdateManyResponse!
   updateManyProjects(input: UpdateManyProjectsInput!): UpdateManyResponse!
@@ -392,6 +415,14 @@ type Query {
     """Specify to sort results."""
     sorting: [ProjectSort!] = [{direction: DESC, field: id}]
   ): ProjectConnection!
+}
+
+input RemoveEmployeesFromProjectInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 input SetEmployeesOnProjectInput {

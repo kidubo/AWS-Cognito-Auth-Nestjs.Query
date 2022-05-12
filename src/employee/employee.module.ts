@@ -7,6 +7,8 @@ import { EmployeeCreateDTO } from './dto/create-employee.input';
 import { UpdateEmployeeInput } from './dto/update-employee';
 import { Employee } from './entities/employee.entity';
 
+const guards = [CognitoAuthGuard];
+
 @Module({
   imports: [
     NestjsQueryGraphQLModule.forFeature({
@@ -24,16 +26,16 @@ import { Employee } from './entities/employee.entity';
                 direction: SortDirection.DESC,
               },
             ],
-            guards: [CognitoAuthGuard],
+            // many: { guards },
           },
           create: {
-            // guards: [GqlAuthGuard],
+            // guards
           },
           update: {
-            // guards: [GqlAuthGuard],
+            // guards,
           },
           delete: {
-            // guards: [GqlAuthGuard],
+            // guards,
           },
         },
       ],

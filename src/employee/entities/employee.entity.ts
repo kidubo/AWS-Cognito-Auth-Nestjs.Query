@@ -1,9 +1,5 @@
-import {
-  FilterableField,
-  FilterableOffsetConnection,
-  OffsetConnection,
-} from '@nestjs-query/query-graphql';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { FilterableField } from '@nestjs-query/query-graphql';
+import { ObjectType } from '@nestjs/graphql';
 import { Project } from 'src/project/entities/project.entity';
 import {
   Column,
@@ -25,15 +21,15 @@ export class Employee {
   @Column()
   firstName: string;
 
-  @Field()
+  @FilterableField()
   @Column()
   lastName: string;
 
-  @Field()
+  @FilterableField()
   @Column()
   designation: string;
 
-  @Field({ nullable: true })
+  @FilterableField({ nullable: true })
   @Column({ nullable: true })
   city: string;
 
@@ -41,7 +37,7 @@ export class Employee {
     onDelete: 'CASCADE',
     nullable: false,
   })
-  @Field(() => Project)
+  // @Field(() => Project)
   @JoinColumn()
   project: Project;
 
